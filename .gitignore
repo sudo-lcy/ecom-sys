@@ -1,0 +1,8 @@
+# Build artifacts
+ecommerce
+ecommerce.exe
+*.o
+
+# Editor files
+*.swp
+.DS_Store
