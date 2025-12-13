@@ -24,9 +24,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          @"
-      0
-      "@ | .\build\Release\ecommerce.exe
+          @"0"@ | .\build\Release\ecommerce.exe
         continue-on-error: true
 
       # Run the Linux/macOS smoketest
