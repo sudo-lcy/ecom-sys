@@ -20,14 +20,13 @@ jobs:
       - name: Build
         run: cmake --build build --config Release
 
-      - name: Smoketest (Windows) - quick exit
+      - name: Smoketest (Windows) - quick exit (here-string)
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          # create a file with a single "0" and newline (role 0 = Exit)
-          Set-Content -Path smoketest_input.txt -Value "0"
-          # run the exe reading stdin from the file
-          .\build\Release\ecommerce.exe < smoketest_input.txt
+          @"
+      0
+      "@ | .\build\Release\ecommerce.exe
         continue-on-error: true
 
       # Run the Linux/macOS smoketest
