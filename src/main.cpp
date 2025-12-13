@@ -46,22 +46,22 @@ int findProductIndexById(int id) {
 
 void arrayProducts() {
     // Initialize at least 5 products
-    products[0] = {1, "Phone Case",         2500.00, 10, true};
-    products[1] = {2, "Airpods    ",        1200.00, 15, true};
-    products[2] = {3, "ScreenProtector",    150.00, 25, true};
-    products[3] = {4, "Phone Holder",       300.00, 20, true};
-    products[4] = {5, "Powerbank",          80.00, 30, true};
-    products[5] = {6, "Charging Cable",     50.00, 40, true};
+    products[0] = {1, "Phone Case",         35, 20, true};
+    products[1] = {2, "Airpods    ",        90, 20, true};
+    products[2] = {3, "ScreenProtector",    45, 20, true};
+    products[3] = {4, "Phone Holder",       67, 20, true};
+    products[4] = {5, "Powerbank",          110, 20, true};
+    products[5] = {6, "Charging Cable",     30, 20, true};
     productCount = 6;
 }
 
 void displayAllProducts() {
     cout << "\n=== Product List ===\n";
-    cout << "ID\tName\t\t\tPrice\tStock\n";
-    cout << "---------------------------------------------\n";
+    cout << "ID\tName\t\t\tPrice(RM)\tStock\n";
+    cout << "-------------------------------------------------------------\n";
     for (int i = 0; i < productCount; i++) {
         if (products[i].active) {
-            cout << products[i].id << "\t" << products[i].name << "\t\t" << products[i].price << "\t" << products[i].stock << "\n";
+            cout << products[i].id << "\t" << products[i].name << "\t\t" << products[i].price << "\t\t" << products[i].stock << "\n";
         }
     }
 }
@@ -259,8 +259,8 @@ void viewCart() {
         return;
     }
 
-    cout << "ID\tName\t\tQty\tPrice\tTotal\n";
-    cout << "-------------------------------------------------\n";
+    cout << "ID\tName\t\t\tQty\tPrice(RM)\tTotal(RM)\n";
+    cout << "--------------------------------------------------------------------\n";
     for (int i = 0; i < cartItemCount; i++) {
         int productIndex = findProductIndexById(cart[i].productId);
         if (productIndex != -1) {
@@ -269,11 +269,11 @@ void viewCart() {
             cout << products[productIndex].id << "\t"
                  << products[productIndex].name << "\t\t"
                  << cart[i].quantity << "\t"
-                 << products[productIndex].price << "\t"
+                 << products[productIndex].price << "\t\t"
                  << itemTotal << "\n";
         }
     }
-    cout << "-------------------------------------------------\n";
+    cout << "--------------------------------------------------------------------\n";
     cout << "Subtotal: " << subtotal << "\n";
 }
 
