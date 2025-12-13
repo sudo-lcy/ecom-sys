@@ -10,6 +10,8 @@ const string ADMIN_PASSWORD = "admin123";
 const string CUSTOMER_USERNAME = "user";
 const string CUSTOMER_PASSWORD = "user123";
 
+// ===================== Login System ============================
+
 bool login(bool &isAdmin) 
 {
     int role;
@@ -83,6 +85,8 @@ bool login(bool &isAdmin)
             }
     }
 }
+
+// ===================== Main ====================================
 
 int main() 
 {

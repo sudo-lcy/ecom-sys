@@ -1,10 +1,9 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <fstream>
 
 using namespace std;
-
-// ===================== Global Data =========================
 
 struct Product {
     int id;
@@ -18,12 +17,6 @@ struct CartItem {
     int productId;
     int quantity;
 };
-
-const string ADMIN_USERNAME = "admin";
-const string ADMIN_PASSWORD = "admin123";
-
-const string CUSTOMER_USERNAME = "user";
-const string CUSTOMER_PASSWORD = "user123";
 
 const int maxProducts = 100;
 const int maxCartItems = 100;
@@ -69,7 +62,6 @@ void displayAllProducts() {
 void searchProductByName() {
     string key;
     cout << "\nEnter product name (or part of it) to search: ";
-    cin.ignore();
     getline(cin, key);
 
     cout << "\n=== Search Results ===\n";
@@ -109,7 +101,6 @@ void addProduct() {
     Product p;
     p.id = productCount + 1;
     cout << "Enter product name: ";
-    cin.ignore();
     getline(cin, p.name);
     cout << "Enter product price: ";
     cin >> p.price;
@@ -136,7 +127,6 @@ void updateProduct() {
 
     cout << "Updating product: " << products[index].name << "\n";
     cout << "Enter new name (leave blank to keep current): ";
-    cin.ignore();
     getline(cin, name);
 
     if (name != "") {
@@ -174,14 +164,14 @@ void deleteProduct() {
 
 void adminMenu() {
     int choice;
+    cout << "\n===== ADMIN MENU =====\n";
+    cout << "1. View all products\n";
+    cout << "2. Search product by name\n";
+    cout << "3. Add new product\n";
+    cout << "4. Update product\n";
+    cout << "5. Delete product\n";
+    cout << "0. Logout\n";
     do {
-        cout << "\n===== ADMIN MENU =====\n";
-        cout << "1. View all products\n";
-        cout << "2. Search product by name\n";
-        cout << "3. Add new product\n";
-        cout << "4. Update product\n";
-        cout << "5. Delete product\n";
-        cout << "0. Logout\n";
         cout << "Enter your choice: ";
         cin >> choice;
 
@@ -342,14 +332,14 @@ void checkout() {
 
 void customerMenu() {
     int choice;
+    cout << "\n===== CUSTOMER MENU =====\n";
+    cout << "1. View all products\n";
+    cout << "2. Search product by name\n";
+    cout << "3. Add product to cart\n";
+    cout << "4. View cart\n";
+    cout << "5. Checkout\n";
+    cout << "0. Logout\n";
     do {
-        cout << "\n===== CUSTOMER MENU =====\n";
-        cout << "1. View all products\n";
-        cout << "2. Search product by name\n";
-        cout << "3. Add product to cart\n";
-        cout << "4. View cart\n";
-        cout << "5. Checkout\n";
-        cout << "0. Logout\n";
         cout << "Enter your choice: ";
         cin >> choice;
 
@@ -363,115 +353,4 @@ void customerMenu() {
             default: cout << "Invalid choice. Try again.\n";
         }
     } while (choice != 0);
-}
-
-// ===================== Login System ============================
-
-bool login(bool &isAdmin) 
-{
-    int role;
-    string validity, username, password;
-    cout << "===== LOGIN =====\n";
-    cout << "1. Admin\n";
-    cout << "2. Customer\n";
-    cout << "0. Exit\n";
-
-    do {
-    cout << "Choose role: ";
-    cin >> role;
-    if (role < 0 || role > 2)
-        cout << "Invalid role choice. Please try again.\n";
-    } while (role < 0 || role > 2);
-
-    if (role == 0) {
-        return false; // Exit application
-    }
-
-    cin.ignore();
-
-    if (role == 1)
-    {
-            cout << "Admin login selected.\n";
-            for ( int i = 0; i < 3; i++ ) 
-            {
-                cout << "Username: ";
-                getline(cin, username);
-                cout << "Password: ";
-                getline(cin, password);
-
-                if (username == ADMIN_USERNAME && password == ADMIN_PASSWORD) {
-                    cout << "Admin login successful.\n";
-                    validity = "valid";
-                    isAdmin = true;
-                    return true;
-                    break;
-                } else {
-                    cout << "Invalid admin credentials. Please try again.\n";
-                    validity = "invalid";
-                }
-            }
-            if (validity == "invalid") {
-                cout << "Too many failed attempts.\n";
-                return false;
-            }
-    } else if (role == 2)
-    {
-            cout << "Customer login selected.\n";
-            for ( int i = 0; i < 3; i++ ) 
-            {
-                cout << "Username: ";
-                getline(cin, username);
-                cout << "Password: ";
-                getline(cin, password);
-
-                if (username == CUSTOMER_USERNAME && password == CUSTOMER_PASSWORD) {
-                    cout << "Customer login successful.\n";
-                    validity = "valid";
-                    isAdmin = false;
-                    return true;
-                    break;
-                } else {
-                    cout << "Invalid customer credentials. Please try again.\n";
-                    validity = "invalid";
-                }
-            }
-            if (validity == "invalid") {
-                cout << "Too many failed attempts.\n";
-                return false;
-            }
-    }
-}
-
-// ===================== Main ====================================
-
-int main() 
-{
-    bool isAdmin = false;
-    char again;
-
-    arrayProducts();
-
-    while (true) 
-    {
-        if (!login(isAdmin)) {
-            cout << "\nGoodbye.\n";
-            break;
-        }
-
-        if (isAdmin) {
-            adminMenu();
-        } else {
-            customerMenu();
-        }
-
-        cout << "\nDo you want to login again? (y/n): ";
-        cin >> again;
-        
-        if (again == 'n' || again == 'N') {
-            cout << "Exiting system. Goodbye.\n";
-            break;
-        }
-    }
-
-    return 0;
 }
