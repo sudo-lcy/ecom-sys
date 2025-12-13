@@ -10,6 +10,9 @@ Features:
 Repository layout
 - /src
   - main.cpp         -> the main program
+- /assets
+  - markdown/*       -> Mermaid syntax codes
+  - image/*          -> Flowchart images
 - Makefile           -> build helper
 - CMakeLists.txt     -> cross-platform build
 - build.bat          -> Windows batch build
