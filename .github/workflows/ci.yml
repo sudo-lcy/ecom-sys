@@ -20,11 +20,14 @@ jobs:
       - name: Build
         run: cmake --build build --config Release
 
-      - name: Smoketest (Windows) - quick exit (here-string)
+      - name: Smoketest (Windows) - quick exit (PowerShell piping)
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          @"0"@ | .\build\Release\ecommerce.exe
+          # write single "0" (role 0 = Exit)
+          Set-Content -Path smoketest_input.txt -Value "0"
+          # pipe file contents into the exe (works in pwsh)
+          Get-Content smoketest_input.txt | .\build\Release\ecommerce.exe
         continue-on-error: true
 
       # Run the Linux/macOS smoketest
