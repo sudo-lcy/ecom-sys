@@ -18,11 +18,6 @@ Repository layout
 - .gitignore
 - CONTRIBUTING.md
 
-Constraints
-- No file handling or database.
-- Do not use: vector, limits, ctime, cstdlib.
-- You may use arrays and C++ standard headers like <string>, <iostream>, <iomanip>.
-
 Build & run (Linux / macOS / WSL)
 1. Clone the repo:
    git clone <repo-url>
