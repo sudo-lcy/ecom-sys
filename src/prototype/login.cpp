@@ -109,10 +109,8 @@ int main()
         cout << "\nDo you want to login again? (y/n): ";
         cin >> again;
         
-        if (again == 'n' || again == 'N') {
+        if (again == 'n' || again == 'N')
             cout << "Exiting system. Goodbye.\n";
-            break;
-        }
     }
 
     return 0;
