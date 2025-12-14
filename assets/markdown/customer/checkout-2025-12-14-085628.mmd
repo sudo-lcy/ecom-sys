@@ -1,0 +1,51 @@
+flowchart TD
+    classDef startend fill:#fff,stroke:#000,stroke-width:2px,rx:10,ry:10;
+    classDef io fill:#fff,stroke:#000,stroke-width:1px,slant:45;
+    classDef decision fill:#fff,stroke:#000,stroke-width:1px,shape:diamond;
+    classDef process fill:#fff,stroke:#000,stroke-width:1px;
+    classDef func fill:#fff,stroke:#000,stroke-width:1px,shape:rect;
+
+    Start([Start]) --> CheckEmpty{"cartItemCount == 0?"}
+    
+    CheckEmpty -- Yes --> MsgEmpty[/"Display 'Cart Empty'"/]
+    MsgEmpty --> Return([Return])
+    
+    CheckEmpty -- No --> Calc[[Call calculateTotals]]
+    
+    %% Calculation Logic (Inside calculateTotals)
+    subgraph CalcLogic [Calculate Totals]
+        Calc --> Sum["Calculate Subtotal from Cart"]
+        Sum --> CheckDisc{"Subtotal >= 1000?"}
+        CheckDisc -- Yes --> ApplyDisc["Discount = 10%"]
+        CheckDisc -- No --> NoDisc["Discount = 0%"]
+        ApplyDisc --> FinalT["Total = Subtotal - Discount"]
+        NoDisc --> FinalT
+    end
+    
+    FinalT --> View[[Call viewCart]]
+    View --> DispTot[/"Display Subtotal, Discount, Total"/]
+    
+    DispTot --> Confirm[/"Ask 'Proceed? y/n'"/]
+    Confirm --> CheckAns{"Ans == 'y'?"}
+    
+    CheckAns -- No --> MsgCancel[/"Display 'Cancelled'"/]
+    MsgCancel --> Return
+    
+    CheckAns -- Yes --> MsgPay[/"Display 'Payment Success'"/]
+    MsgPay --> LoopInit["Set i = 0"]
+    
+    %% Stock Reduction Loop
+    LoopInit --> LoopCond{"i < cartItemCount?"}
+    LoopCond -- True --> FindProd[[Find Product Index]]
+    FindProd --> Reduce["products[idx].stock -= cart[i].qty"]
+    Reduce --> Inc["i++"]
+    Inc --> LoopCond
+    
+    LoopCond -- False --> Clear["cartItemCount = 0"]
+    Clear --> Return
+
+    class Start,Return startend;
+    class MsgEmpty,MsgCancel,MsgPay,DispTot,Confirm io;
+    class CheckEmpty,CheckDisc,CheckAns,LoopCond decision;
+    class Sum,ApplyDisc,NoDisc,FinalT,LoopInit,Reduce,Inc,Clear process;
+    class Calc,View,FindProd func;

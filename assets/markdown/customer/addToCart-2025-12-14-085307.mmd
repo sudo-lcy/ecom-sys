@@ -1,0 +1,47 @@
+flowchart TD
+    classDef startend fill:#fff,stroke:#000,stroke-width:2px,rx:10,ry:10;
+    classDef io fill:#fff,stroke:#000,stroke-width:1px,slant:45;
+    classDef decision fill:#fff,stroke:#000,stroke-width:1px,shape:diamond;
+    classDef process fill:#fff,stroke:#000,stroke-width:1px;
+    classDef func fill:#fff,stroke:#000,stroke-width:1px,shape:rect;
+
+    Start([Start]) --> InputID[/"Input Product ID"/]
+    InputID --> FindProd[[Call findProductIndexById]]
+    FindProd --> CheckFound{"Product Found?"}
+    CheckFound -- No --> MsgNoProd[/"Display 'Not Found'"/]
+    MsgNoProd --> Return([Return])
+    
+    CheckFound -- Yes --> InputQty[/"Input Quantity"/]
+    InputQty --> CheckQty{"Qty <= 0?"}
+    CheckQty -- Yes --> MsgInv[/"Display 'Invalid Qty'"/]
+    MsgInv --> Return
+    
+    CheckQty -- No --> CheckStock{"Qty > Stock?"}
+    CheckStock -- Yes --> MsgStock[/"Display 'Not enough stock'"/]
+    MsgStock --> Return
+    
+    CheckStock -- No --> FindCart[[Call findCartItemIndexByProductId]]
+    FindCart --> InCart{"Index == -1? (New Item)"}
+    
+    %% New Item Path
+    InCart -- Yes --> CheckFull{"Cart Full?"}
+    CheckFull -- Yes --> MsgFull[/"Display 'Cart Full'"/]
+    MsgFull --> Return
+    CheckFull -- No --> AddNew["cart[count].id = id, cart[count].qty = qty"]
+    AddNew --> IncCount["cartItemCount++"]
+    IncCount --> MsgAdd
+    
+    %% Existing Item Path
+    InCart -- No --> CheckLimit{"Existing + New > Stock?"}
+    CheckLimit -- Yes --> MsgLimit[/"Display 'Exceeds Stock'"/]
+    MsgLimit --> Return
+    CheckLimit -- No --> UpdateQty["cart[index].qty += qty"]
+    UpdateQty --> MsgAdd
+    
+    MsgAdd[/"Display 'Added to Cart'"/] --> Return
+
+    class Start,Return startend;
+    class InputID,InputQty,MsgNoProd,MsgInv,MsgStock,MsgFull,MsgLimit,MsgAdd io;
+    class CheckFound,CheckQty,CheckStock,InCart,CheckFull,CheckLimit decision;
+    class AddNew,IncCount,UpdateQty process;
+    class FindProd,FindCart func;

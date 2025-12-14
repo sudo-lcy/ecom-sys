@@ -1,0 +1,37 @@
+flowchart TD
+    classDef startend fill:#fff,stroke:#000,stroke-width:2px,rx:10,ry:10;
+    classDef io fill:#fff,stroke:#000,stroke-width:1px,slant:45;
+    classDef decision fill:#fff,stroke:#000,stroke-width:1px,shape:diamond;
+    classDef func fill:#fff,stroke:#000,stroke-width:1px,shape:rect;
+
+    Start([Start]) --> DisplayMenu[/Display Admin Menu/]
+    
+    %% Start of Do-While Loop Body
+    DisplayMenu --> InputChoice[/Input Choice/]
+    InputChoice --> Switch{Switch Choice}
+    
+    %% Case Paths
+    Switch -- 1 --> CallView[[Call displayAllProducts]]
+    Switch -- 2 --> CallSearch[[Call searchProductByName]]
+    Switch -- 3 --> CallAdd[[Call addProduct]]
+    Switch -- 4 --> CallUpdate[[Call updateProduct]]
+    Switch -- 5 --> CallDelete[[Call deleteProduct]]
+    
+    %% Logout Path (Case 0)
+    Switch -- 0 --> MsgLogout[/Display 'Logging out...'/]
+    
+    %% Default Path
+    Switch -- Default --> MsgInvalid[/Display 'Invalid Choice'/]
+    
+    %% Merge Point (End of Switch)
+    CallView & CallSearch & CallAdd & CallUpdate & CallDelete & MsgLogout & MsgInvalid --> LoopCond{Choice != 0?}
+    
+    %% Loop Condition Logic
+    LoopCond -- True --> DisplayMenu
+    LoopCond -- False --> Return([Return])
+
+    %% Apply styles
+    class Start,Return startend;
+    class DisplayMenu,InputChoice,MsgLogout,MsgInvalid io;
+    class Switch,LoopCond decision;
+    class CallView,CallSearch,CallAdd,CallUpdate,CallDelete func;

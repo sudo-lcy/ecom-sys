@@ -1,0 +1,23 @@
+flowchart TD
+    classDef startend fill:#fff,stroke:#000,stroke-width:2px,rx:10,ry:10;
+    classDef io fill:#fff,stroke:#000,stroke-width:1px,slant:45;
+    classDef decision fill:#fff,stroke:#000,stroke-width:1px,shape:diamond;
+    classDef process fill:#fff,stroke:#000,stroke-width:1px;
+    classDef func fill:#fff,stroke:#000,stroke-width:1px,shape:rect;
+
+    Start([Start]) --> InputID[/"Input ID"/]
+    InputID --> Find[[Call findProductIndexById]]
+    Find --> CheckFound{"Index == -1?"}
+    
+    CheckFound -- Yes --> MsgFail[/"Display 'Not Found'"/]
+    MsgFail --> Return([Return])
+    
+    CheckFound -- No --> SoftDel["products[index].active = false"]
+    SoftDel --> MsgSuccess[/"Display 'Product Deleted'"/]
+    MsgSuccess --> Return
+
+    class Start,Return startend;
+    class InputID,MsgFail,MsgSuccess io;
+    class CheckFound decision;
+    class SoftDel process;
+    class Find func;

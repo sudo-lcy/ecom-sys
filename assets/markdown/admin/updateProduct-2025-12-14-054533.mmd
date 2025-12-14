@@ -1,0 +1,39 @@
+flowchart TD
+    classDef startend fill:#fff,stroke:#000,stroke-width:2px,rx:10,ry:10;
+    classDef io fill:#fff,stroke:#000,stroke-width:1px,slant:45;
+    classDef decision fill:#fff,stroke:#000,stroke-width:1px,shape:diamond;
+    classDef process fill:#fff,stroke:#000,stroke-width:1px;
+    classDef func fill:#fff,stroke:#000,stroke-width:1px,shape:rect;
+
+    Start([Start]) --> InputID[/"Input ID to Update"/]
+    InputID --> Find[[Call findProductIndexById]]
+    Find --> CheckFound{"Index == -1?"}
+    
+    CheckFound -- Yes --> MsgFail[/"Display 'Not Found'"/]
+    MsgFail --> Return([Return])
+    
+    CheckFound -- No --> InputName[/"Input Name (Blank to skip)"/]
+    InputName --> CheckName{"Name != empty?"}
+    CheckName -- Yes --> UpdName["products[index].name = name"]
+    CheckName -- No --> InputPrice
+    UpdName --> InputPrice
+    
+    InputPrice[/"Input Price (-1 to skip)"/]
+    InputPrice --> CheckPrice{"Price >= 0?"}
+    CheckPrice -- Yes --> UpdPrice["products[index].price = price"]
+    CheckPrice -- No --> InputStock
+    UpdPrice --> InputStock
+    
+    InputStock[/"Input Stock (-1 to skip)"/]
+    InputStock --> CheckStock{"Stock >= 0?"}
+    CheckStock -- Yes --> UpdStock["products[index].stock = stock"]
+    CheckStock -- No --> MsgSuccess
+    UpdStock --> MsgSuccess
+    
+    MsgSuccess[/"Display 'Update Success'"/] --> Return
+
+    class Start,Return startend;
+    class InputID,MsgFail,InputName,InputPrice,InputStock,MsgSuccess io;
+    class CheckFound,CheckName,CheckPrice,CheckStock decision;
+    class UpdName,UpdPrice,UpdStock process;
+    class Find func;
