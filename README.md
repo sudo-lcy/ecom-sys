@@ -40,6 +40,11 @@ Build & run (Linux / macOS / WSL)
 4. Run:
    ./ecommerce   (or ecommerce.exe on Windows)
 
+Run instructions
+- Open a terminal in the directory containing ecommerce
+- Make sure products.txt exists in the same directory before running
+- Do ./ecommerce to launch the program
+
 Notes
 - For Windows users without make/CMake installed, use build.bat or build.ps1 (requires g++ or MSVC).
 - CI is configured to build with CMake on Linux, macOS and Windows.
