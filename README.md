@@ -3,14 +3,13 @@
 Simple C++ console-based e-commerce system for course work.  
 Features:
 - Admin and Customer login
+- Product array reading from/writing to a text file via file handling
 - Display all avialable product
 - Search product by name
-- Shopping cart using arrays
+- Shopping cart using array
 - Checkout and simulated payment confirmation
+- Simple receipt after checkout ( Have yet to implement )
 - Loops, conditionals, modular functions, input validation
-- Manipulate product details ( Name, Price, Stock )
-- Printing receipt in text file via file handling ( have yet to implement )
-- Storing product array in text file via file handling ( have yet to implement )
 
 Repository layout
 - /src
