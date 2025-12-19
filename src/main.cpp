@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <fstream>
 #include <sstream>
+#include <limits>
 
 using namespace std;
 
@@ -27,8 +28,11 @@ const string ADMIN_PASSWORD = "admin123";
 const string CUSTOMER_USERNAME = "user";
 const string CUSTOMER_PASSWORD = "user123";
 
+const string PRODUCTS_FILE = "products.txt";
+
 const int maxProducts = 100;
 const int maxCartItems = 100;
+const int maxAttempts = 3;
 
 Product products[maxProducts];
 int productCount = 0;
@@ -36,7 +40,29 @@ int productCount = 0;
 CartItem cart[maxCartItems];
 int cartItemCount = 0;
 
-const string PRODUCTS_FILE = "products.txt";
+// ===================== Simple input validation function ====================
+
+int readInt()
+{
+    string integer;
+    getline(cin, integer);
+    try {
+        return stoi(integer);
+    } catch (const invalid_argument&) {
+        return -2;  // Return -2 for invalid input
+    }
+}
+
+int readDouble()
+{
+    string dbl;
+    getline(cin, dbl);
+    try {
+        return stod(dbl);
+    } catch (const invalid_argument&) {
+        return -2;  // Return -2 for invalid input
+    }
+}
 
 // ===== Reading and writing products to text file via file handling ======
 
@@ -115,7 +141,6 @@ void displayAllProducts() {
 void searchProductByName() {
     string key;
     cout << "\nEnter product name (or part of it) to search: ";
-    cin.ignore();
     getline(cin, key);
 
     cout << "\n=== Search Results ===\n";
@@ -154,12 +179,23 @@ void addProduct() {
     p.id = productCount + 1;
 
     cout << "Enter product name: ";
-    cin.ignore();
+
     getline(cin, p.name);
-    cout << "Enter product price: ";
-    cin >> p.price;
-    cout << "Enter product stock: ";
-    cin >> p.stock;
+
+    do{
+        cout << "Enter product price: ";
+        p.price = readDouble();
+        if (p.price < 0)
+            cout << "Invalid Input. Please enter again.\n";
+    } while (p.price < 0);
+    
+    do{
+        cout << "Enter product stock: ";
+        p.stock = readInt();
+        if (p.stock < 0)
+            cout << "Invalid input. Please enter again.\n";
+    } while (p.stock < 0);
+    
     p.active = true;
 
     products[productCount++] = p;
@@ -173,7 +209,7 @@ void updateProduct() {
     string name;
 
     cout << "\nEnter Product ID to update: ";
-    cin >> id;
+    id = readInt();
     index = findProductIndexById(id);
     if (index == -1) {
         cout << "Product not found.\n";
@@ -182,21 +218,32 @@ void updateProduct() {
 
     cout << "Updating product: " << products[index].name << "\n";
     cout << "Enter new name (leave blank to keep current): ";
-    cin.ignore();
+
     getline(cin, name);
 
     if (name != "") {
         products[index].name = name;
     }
 
+    do {
     cout << "Enter new price (-1 to keep current): ";
-    cin >> price;
+    price = readDouble();
+    if (price < 0 && price != -1)
+        cout << "Invalid input. Please enter again.\n";
+    } while (price < 0 && price != -1);
+
     if (price >= 0) {
         products[index].price = price;
     }
 
+
+    do {
     cout << "Enter new stock (-1 to keep current): ";
-    cin >> stock;
+    stock = readInt();
+    if (stock < 0 && stock != -1)
+        cout << "Invalid input. Please enter again.\n";
+    } while (stock < 0 && stock != -1);
+
     if (stock >= 0) {
         products[index].stock = stock;
     }
@@ -208,7 +255,7 @@ void updateProduct() {
 void deleteProduct() {
     int id, index;
     cout << "\nEnter Product ID to delete: ";
-    cin >> id;
+    id = readInt();
     index = findProductIndexById(id);
     if (index == -1) {
         cout << "Product not found.\n";
@@ -231,7 +278,7 @@ void adminMenu() {
         cout << "5. Delete product\n";
         cout << "0. Logout\n";
         cout << "Enter your choice: ";
-        cin >> choice;
+        choice = readInt();
 
         switch (choice) {
             case 1: displayAllProducts(); break;
@@ -258,19 +305,19 @@ int findCartItemIndexByProductId(int productId) {
 void addToCart() {
     int id, productIndex, quantity, cartIndex;
     cout << "\nEnter Product ID to add to cart: ";
-    cin >> id;
+    id = readInt();
     productIndex = findProductIndexById(id);
     if (productIndex == -1) {
         cout << "Product not found.\n";
         return;
     }
 
-    cout << "Enter quantity: ";
-    cin >> quantity;
-    if (quantity <= 0) {
-        cout << "Quantity must be greater than 0.\n";
-        return;
-    }
+    do {
+        cout << "Enter quantity: ";
+        quantity = readInt();
+        if (quantity <= 0) {
+            cout << "Invalid input. Please try again.\n";
+    }} while (quantity <= 0);
 
     if (quantity > products[productIndex].stock) {
         cout << "Not enough stock. Available: " << products[productIndex].stock << "\n";
@@ -301,14 +348,13 @@ void addToCart() {
 
 void viewCart() {
     double subtotal = 0.0;
-    cout << "\n=== Shopping Cart ===\n";
     if (cartItemCount == 0) {
         cout << "Your cart is empty.\n";
         return;
     }
 
     cout << "ID\tName\t\t\tQty\tPrice(RM)\tTotal(RM)\n";
-    cout << "--------------------------------------------------------------------\n";
+    cout << "-------------------------------------------------------------------\n";
     for (int i = 0; i < cartItemCount; i++) {
         int productIndex = findProductIndexById(cart[i].productId);
         if (productIndex != -1) {
@@ -321,8 +367,8 @@ void viewCart() {
                  << itemTotal << "\n";
         }
     }
-    cout << "--------------------------------------------------------------------\n";
-    cout << "Subtotal: " << subtotal << "\n";
+    cout << "-------------------------------------------------------------------\n";
+    cout << "\t\t\t\t\tSubtotal: \t" << subtotal << "\n";
 }
 
 // Calculate subtotal, discount, total
@@ -346,24 +392,24 @@ void calculateTotals(double &subtotal, double &discount, double &total) {
 }
 
 void checkout() {
+    double subtotal, discount, total;
+    char ans;
+
     if (cartItemCount == 0) {
         cout << "\nYour cart is empty. Add items before checkout.\n";
         return;
     }
 
-    cout << "\n=== Order Summary ===\n";
-    double subtotal, discount, total;
+    cout << "\n========================== Order Summary ==========================\n";
     calculateTotals(subtotal, discount, total);
     viewCart();
-    cout << "Subtotal: " << subtotal << "\n";
-    cout << "Discount: " << discount << "\n";
-    cout << "Total: " << total << "\n";
+    cout << "\t\t\t\t\tDiscount: \t" << discount << "\n";
+    cout << "\t\t\t\t\tTotal: \t\t" << total << "\n";
 
     // Confirm checkout
-    cout << "\nDo you want to proceed to payment? (y/n): ";
-    char ans;
+    cout << "\nDo you want to proceed to payment?\n(Y/y to proceed, any other key to cancel): ";
     cin >> ans;
-    cin.ignore(10000, '\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     if (ans == 'y' || ans == 'Y') {
         // Simulate payment
@@ -402,13 +448,14 @@ void customerMenu() {
         cout << "5. Checkout\n";
         cout << "0. Logout\n";
         cout << "Enter your choice: ";
-        cin >> choice;
+        choice = readInt();
 
         switch (choice) {
             case 1: displayAllProducts(); break;
             case 2: searchProductByName(); break;
             case 3: addToCart(); break;
-            case 4: viewCart(); break;
+            case 4: cout << "\n========================== Shopping Cart ==========================\n";
+                    viewCart(); break;
             case 5: checkout(); break;
             case 0: cout << "Logging out...\n"; break;
             default: cout << "Invalid choice. Try again.\n";
@@ -422,24 +469,21 @@ bool login(bool &isAdmin)
 {
     int role;
     string validity, username, password;
-    cout << "===== LOGIN =====\n";
-    cout << "1. Admin\n";
-    cout << "2. Customer\n";
-    cout << "0. Exit\n";
-
     do {
+        cout << "===== LOGIN =====\n";
+        cout << "1. Admin\n";
+        cout << "2. Customer\n";
+        cout << "0. Exit\n";
         cout << "Choose role: ";
-        cin >> role;
+        role = readInt();
         if (role < 0 || role > 2)
-            cout << "Invalid role choice. Please try again.\n";
+            cout << "\nInvalid role choice. Please try again.\n\n";
     } while (role < 0 || role > 2);
-
-    cin.ignore();
 
     if (role == 1)
     {
         cout << "Admin login selected.\n";
-        for ( int i = 0; i < 3; i++ ) 
+        for ( int i = 0; i < maxAttempts; i++ ) 
         {
             cout << "Username: ";
             getline(cin, username);
@@ -460,7 +504,7 @@ bool login(bool &isAdmin)
     else if (role == 2)
     {
         cout << "Customer login selected.\n";
-        for ( int i = 0; i < 3; i++ ) 
+        for ( int i = 0; i < maxAttempts; i++ ) 
         {
             cout << "Username: ";
             getline(cin, username);
@@ -479,11 +523,8 @@ bool login(bool &isAdmin)
         }
     }
 
-    if (validity == "invalid") {
+    if (validity == "invalid")
             cout << "Too many failed attempts.\n";
-            return false;
-    }
-    
     return false;
 }
 
@@ -509,8 +550,9 @@ int main()
             customerMenu();
         }
 
-        cout << "\nDo you want to login again? (y/n): ";
+        cout << "\nDo you want to login again?\n(N/n to exit, any other key to continue): ";
         cin >> again;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         
         if (again == 'n' || again == 'N') {
             cout << "Exiting system. Goodbye.\n";
