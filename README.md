@@ -8,7 +8,7 @@ Features:
 - Search product by name
 - Shopping cart using array
 - Checkout and simulated payment confirmation
-- Simple receipt after checkout ( Have yet to implement )
+- Simple receipt after checkout
 - Loops, conditionals, modular functions, input validation
 
 Repository layout
