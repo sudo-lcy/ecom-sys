@@ -127,9 +127,9 @@ int findProductIndexById(int id) {
 }
 
 void displayAllProducts() {
-    cout << "\n=== Product List ===\n";
+    cout << "\n======================= Product List =======================\n";
     cout << "ID\tName\t\t\tPrice(RM)\tStock\n";
-    cout << "-------------------------------------------------------------\n";
+    cout << "------------------------------------------------------------\n";
     for (int i = 0; i < productCount; i++) {
         if (products[i].active) {
             cout << products[i].id << "\t" << products[i].name << "\t\t"
@@ -143,7 +143,7 @@ void searchProductByName() {
     cout << "\nEnter product name (or part of it) to search: ";
     getline(cin, key);
 
-    cout << "\n=== Search Results ===\n";
+    cout << "\n==================== Search Results ====================\n";
     bool found = false;
     for (int i = 0; i < productCount; i++) {
         string name = products[i].name, keyLower = key, nameLower = name;
@@ -346,8 +346,8 @@ void addToCart() {
     cout << "Product added to cart.\n";
 }
 
-void viewCart() {
-    double subtotal = 0.0;
+void viewCart(double &subtotal) {
+    subtotal = 0.0;
     if (cartItemCount == 0) {
         cout << "Your cart is empty.\n";
         return;
@@ -371,26 +371,6 @@ void viewCart() {
     cout << "\t\t\t\t\tSubtotal: \t" << subtotal << "\n";
 }
 
-// Calculate subtotal, discount, total
-void calculateTotals(double &subtotal, double &discount, double &total) {
-    subtotal = 0.0;
-    for (int i = 0; i < cartItemCount; i++) {
-        int productIndex = findProductIndexById(cart[i].productId);
-        if (productIndex != -1) {
-            subtotal += products[productIndex].price * cart[i].quantity;
-        }
-    }
-
-    // Simple discount rule:
-    // If subtotal >= 1000, 10% discount
-    if (subtotal >= 1000) {
-        discount = subtotal * 0.10;
-    } else {
-        discount = 0.0;
-    }
-    total = subtotal - discount;
-}
-
 void checkout() {
     double subtotal, discount, total;
     char ans;
@@ -401,8 +381,16 @@ void checkout() {
     }
 
     cout << "\n========================== Order Summary ==========================\n";
-    calculateTotals(subtotal, discount, total);
-    viewCart();
+  
+    viewCart(subtotal);
+
+    if (subtotal >= 1000) {
+        discount = subtotal * 0.10;
+    } else {
+        discount = 0.0;
+    }
+    total = subtotal - discount;
+
     cout << "\t\t\t\t\tDiscount: \t" << discount << "\n";
     cout << "\t\t\t\t\tTotal: \t\t" << total << "\n";
 
@@ -439,6 +427,7 @@ void checkout() {
 
 void customerMenu() {
     int choice;
+    double subtotal;
     do {
         cout << "\n===== CUSTOMER MENU =====\n";
         cout << "1. View all products\n";
@@ -455,7 +444,7 @@ void customerMenu() {
             case 2: searchProductByName(); break;
             case 3: addToCart(); break;
             case 4: cout << "\n========================== Shopping Cart ==========================\n";
-                    viewCart(); break;
+                    viewCart(subtotal); break;
             case 5: checkout(); break;
             case 0: cout << "Logging out...\n"; break;
             default: cout << "Invalid choice. Try again.\n";
@@ -482,7 +471,7 @@ bool login(bool &isAdmin)
 
     if (role == 1)
     {
-        cout << "Admin login selected.\n";
+        cout << "Admin login selected.\n\n";
         for ( int i = 0; i < maxAttempts; i++ ) 
         {
             cout << "Username: ";
@@ -503,7 +492,7 @@ bool login(bool &isAdmin)
     } 
     else if (role == 2)
     {
-        cout << "Customer login selected.\n";
+        cout << "Customer login selected.\n\n";
         for ( int i = 0; i < maxAttempts; i++ ) 
         {
             cout << "Username: ";
@@ -528,6 +517,15 @@ bool login(bool &isAdmin)
     return false;
 }
 
+void welcome(){
+cout << R"(              ▄▄                            
+              ██                            
+██   ██ ▄█▀█▄ ██ ▄████ ▄███▄ ███▄███▄ ▄█▀█▄ 
+██ █ ██ ██▄█▀ ██ ██    ██ ██ ██ ██ ██ ██▄█▀ 
+ ██▀██  ▀█▄▄▄ ██ ▀████ ▀███▀ ██ ██ ██ ▀█▄▄▄                                  
+)" << endl;
+}
+
 // ===================== Main ====================================
 
 int main() 
@@ -536,6 +534,7 @@ int main()
     char again;
 
     loadProductsFromFile();
+    welcome();
 
     while (true) 
     {
@@ -552,6 +551,7 @@ int main()
 
         cout << "\nDo you want to login again?\n(N/n to exit, any other key to continue): ";
         cin >> again;
+        cout << endl;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         
         if (again == 'n' || again == 'N') {
