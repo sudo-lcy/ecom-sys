@@ -24,15 +24,15 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          # write single "0" (role 0 = Exit)
           Set-Content -Path smoketest_input.txt -Value "0"
-          # pipe file contents into the exe (works in pwsh)
           Get-Content smoketest_input.txt | .\build\Release\ecommerce.exe
         continue-on-error: true
 
       # Run the Linux/macOS smoketest
       - name: Smoketest (Linux / macOS)
         if: runner.os != 'Windows'
-        run: ./build/ecommerce
+        run: |
+          echo "0" > smoketest_input.txt
+          ./build/ecommerce < smoketest_input.txt
         shell: bash
         continue-on-error: true
