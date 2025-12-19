@@ -1,6 +1,0 @@
-1|Phone Case|35|20|1
-2|Airpods    |90|20|1
-3|ScreenProtector|45|17|1
-4|Phone Holder|67|16|1
-5|Powerbank|110|15|1
-6|Charging Cable|30|20|1
