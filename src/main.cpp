@@ -44,10 +44,10 @@ int cartItemCount = 0;
 
 int readInt()
 {
-    string integer;
-    getline(cin, integer);
+    string input;
+    getline(cin, input);
     try {
-        return stoi(integer);
+        return stoi(input);
     } catch (const invalid_argument&) {
         return -2;  // Return -2 for invalid input
     }
@@ -55,10 +55,10 @@ int readInt()
 
 int readDouble()
 {
-    string dbl;
-    getline(cin, dbl);
+    string input;
+    getline(cin, input);
     try {
-        return stod(dbl);
+        return stod(input);
     } catch (const invalid_argument&) {
         return -2;  // Return -2 for invalid input
     }
