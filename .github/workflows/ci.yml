@@ -1,6 +1,10 @@
-on: [push, pull_request]
-
 name: Build (Linux/macOS/Windows)
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
 
 jobs:
   build:
@@ -28,7 +32,6 @@ jobs:
           Get-Content smoketest_input.txt | .\build\Release\ecommerce.exe
         continue-on-error: true
 
-      # Run the Linux/macOS smoketest
       - name: Smoketest (Linux / macOS)
         if: runner.os != 'Windows'
         run: |
@@ -36,3 +39,45 @@ jobs:
           ./build/ecommerce < smoketest_input.txt
         shell: bash
         continue-on-error: true
+
+      - name: Package artifacts
+        run: |
+          mkdir -p dist
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            copy build\Release\ecommerce.exe dist\ecommerce-windows-amd64.exe
+          elif [ "${{ runner.os }}" = "Linux" ]; then
+            cp build/ecommerce dist/ecommerce-linux-amd64
+          else
+            cp build/ecommerce dist/ecommerce-macos-amd64
+        shell: bash
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecommerce-${{ runner.os }}-amd64
+          path: dist/*
+
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./dist
+
+      - name: List downloaded files
+        run: ls -R ./dist
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: |
+            dist/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
