@@ -11,6 +11,10 @@ Features:
 - Simple receipt after checkout
 - Loops, conditionals, modular functions, input validation
 
+Limitations:
+- No database implementation
+- Only one account for admin login and one account for customer login
+
 Repository layout
 - /src
   - main.cpp         -> the main program
