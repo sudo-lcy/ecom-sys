@@ -1,0 +1,18 @@
+graph TD
+    S([Start]) --> D1{productCount >= maxProducts?}
+    D1 -- Yes --> O1[/Display 'Limit Reached'/]
+    O1 --> E([Return])
+    D1 -- No --> I1[/Input Product Name/]
+    I1 --> L1[/Input Price/]
+    L1 --> D2{Price < 0?}
+    D2 -- Yes --> O2[/Display Invalid/]
+    O2 --> L1
+    D2 -- No --> L2[/Input Stock/]
+    L2 --> D3{Stock < 0?}
+    D3 -- Yes --> O3[/Display Invalid/]
+    O3 --> L2
+    D3 -- No --> P1[Set ID and Active = true]
+    P1 --> P2[Store in Array]
+    P2 --> C1[[Call saveProductsToFile]]
+    C1 --> O4[/Display Success/]
+    O4 --> E

@@ -1,0 +1,33 @@
+graph TD
+    S([Start]) --> I1[/Input ID/]
+    I1 --> C1[[Call findProductIndexById]]
+    C1 --> D1{Index == -1?}
+    D1 -- Yes --> O1[/Display 'Not Found'/]
+    O1 --> E([Return])
+    D1 -- No --> O2[/Display 'Updating...'/]
+    O2 --> I2[/Input New Name/]
+    I2 --> D2{Name != Empty?}
+    D2 -- Yes --> P1[Update Name]
+    P1 --> LoopPrice
+    D2 -- No --> LoopPrice
+    
+    %% Price Validation Loop
+    LoopPrice[/Input New Price/] --> D3{Price < 0 AND Price != -1?}
+    D3 -- Yes --> O3[/Display Invalid/]
+    O3 --> LoopPrice
+    D3 -- No --> D4{Price >= 0?}
+    D4 -- Yes --> P2[Update Price]
+    P2 --> LoopStock
+    D4 -- No --> LoopStock
+
+    %% Stock Validation Loop
+    LoopStock[/Input New Stock/] --> D5{Stock < 0 AND Stock != -1?}
+    D5 -- Yes --> O4[/Display Invalid/]
+    O4 --> LoopStock
+    D5 -- No --> D6{Stock >= 0?}
+    D6 -- Yes --> P3[Update Stock]
+    P3 --> C2
+    D6 -- No --> C2
+    
+    C2[[Call saveProductsToFile]] --> O5[/Display Success/]
+    O5 --> E

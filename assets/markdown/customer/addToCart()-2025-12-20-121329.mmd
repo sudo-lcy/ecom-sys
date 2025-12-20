@@ -1,0 +1,20 @@
+graph TD
+    S([Start]) --> I1[/Input ID/]
+    I1 --> C1[[Call findProductIndexById]]
+    C1 --> D1{Product Found?}
+    D1 -- No --> E([Return])
+    D1 -- Yes --> I2[/Input Quantity/]
+    I2 --> D2{Quantity > Stock?}
+    D2 -- Yes --> O1[/Display 'Not Enough Stock'/]
+    O1 --> E
+    D2 -- No --> C2[[Call findCartItemIndexByProductId]]
+    C2 --> D3{Item in Cart?}
+    D3 -- No --> D4{Cart Full?}
+    D4 -- Yes --> O2[/Cart Full/]
+    D4 -- No --> P1[Add New Item to Cart]
+    P1 --> O3[/Display Added/]
+    D3 -- Yes --> D5{New Total > Stock?}
+    D5 -- Yes --> O4[/Error: Exceeds Stock/]
+    D5 -- No --> P2[Update Quantity]
+    P2 --> O3
+    O2 & O3 & O4 --> E

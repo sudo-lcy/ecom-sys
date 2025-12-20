@@ -1,0 +1,10 @@
+graph TD
+    S([Start]) --> I1[/Input ID/]
+    I1 --> C1[[Call findProductIndexById]]
+    C1 --> D1{Index == -1?}
+    D1 -- Yes --> O1[/Display 'Not Found'/]
+    O1 --> E([Return])
+    D1 -- No --> P1[Set Active = false]
+    P1 --> C2[[Call saveProductsToFile]]
+    C2 --> O2[/Display 'Deleted'/]
+    O2 --> E

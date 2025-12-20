@@ -1,0 +1,8 @@
+graph TD
+    S([Start]) --> P1[Set i = 0]
+    P1 --> D1{i < cartItemCount?}
+    D1 -- False --> R1([Return -1])
+    D1 -- True --> D2{cart productId matches?}
+    D2 -- Yes --> R2([Return i])
+    D2 -- No --> P2[Increment i]
+    P2 --> D1

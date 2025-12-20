@@ -1,0 +1,18 @@
+graph TD
+    S([Start]) --> I1[/Input search key/]
+    I1 --> P1[Set found = false]
+    P1 --> P2[Set i = 0]
+    P2 --> D1{i < productCount?}
+    D1 -- False --> D2{found == false?}
+    D2 -- Yes --> O1[/Display 'No match'/]
+    O1 --> E([End])
+    D2 -- No --> E
+    D1 -- True --> D3{Product Active?}
+    D3 -- No --> P3[Increment i]
+    P3 --> D1
+    D3 -- Yes --> P4[Convert Name & Key to Lowercase]
+    P4 --> D4{Name contains Key?}
+    D4 -- Yes --> O2[/Display Product Details/]
+    O2 --> P5[Set found = true]
+    P5 --> P3
+    D4 -- No --> P3

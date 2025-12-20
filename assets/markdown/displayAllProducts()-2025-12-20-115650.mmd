@@ -1,0 +1,10 @@
+graph TD
+    S([Start]) --> O1[/Display Header/]
+    O1 --> P1[Set i = 0]
+    P1 --> D1{i < productCount?}
+    D1 -- False --> E([Return])
+    D1 -- True --> D2{products i is Active?}
+    D2 -- Yes --> O2[/Display Product Details/]
+    D2 -- No --> P2[Increment i]
+    O2 --> P2
+    P2 --> D1

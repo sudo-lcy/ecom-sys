@@ -1,0 +1,12 @@
+graph TD
+    S([Start]) --> P1[Open 'products.txt' for Output]
+    P1 --> D1{File Opened?}
+    D1 -- No --> O1[/Display Error/]
+    O1 --> R1([Return])
+    D1 -- Yes --> P2[Set i = 0]
+    P2 --> D2{i < productCount?}
+    D2 -- True --> O2[/Write ID, Name, Price, Stock, Active to file/]
+    O2 --> P3[Increment i]
+    P3 --> D2
+    D2 -- False --> C1[Close File]
+    C1 --> E([End])

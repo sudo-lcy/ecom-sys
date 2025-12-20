@@ -1,0 +1,31 @@
+graph TD
+    S([Start]) --> RoleLoop[/Display Menu & Input Role/]
+    RoleLoop --> D1{Role < 0 OR Role > 2?}
+    D1 -- Yes --> Msg1[/Display 'Invalid Role'/]
+    Msg1 --> RoleLoop
+    D1 -- No --> D2{Role == 1?}
+    
+    %% Admin Path
+    D2 -- Yes (Admin) --> O1[/Display 'Admin Login Selected'/]
+    O1 --> A_Loop[Set i = 0]
+    A_Loop --> A_Check{i < maxAttempts?}
+    A_Check -- False --> Fail
+    A_Check -- True --> A_In[/Input Admin User & Pass/]
+    A_In --> A_Cred{Is Admin Credentials?}
+    A_Cred -- Yes --> SetAdmin[Set isAdmin = true] --> RetTrue([Return true])
+    A_Cred -- No --> Msg2[/Display 'Invalid'/] --> A_Inc[i++] --> A_Check
+
+    %% Customer Path
+    D2 -- No (Role 2) --> D3{Role == 2?}
+    D3 -- Yes (Customer) --> O2[/Display 'Customer Login Selected'/]
+    O2 --> C_Loop[Set i = 0]
+    C_Loop --> C_Check{i < maxAttempts?}
+    C_Check -- False --> Fail
+    C_Check -- True --> C_In[/Input User & Pass/]
+    C_In --> C_Cred{Is Customer Credentials?}
+    C_Cred -- Yes --> SetCust[Set isAdmin = false] --> RetTrue
+    C_Cred -- No --> Msg3[/Display 'Invalid'/] --> C_Inc[i++] --> C_Check
+
+    %% Exit Path
+    D3 -- No (Exit) --> RetFalse([Return false])
+    Fail[/Display 'Too many failed attempts'/] --> RetFalse

@@ -1,0 +1,6 @@
+graph TD
+    S([Start]) --> I[/Read string input/]
+    I --> P1[Try convert input from string to integer]
+    P1 --> D{Conversion Successful?}
+    D -- Yes --> R1([Return input])
+    D -- No --> R2([Return -2])

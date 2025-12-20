@@ -1,0 +1,20 @@
+graph TD
+    S([Start]) --> D1{Cart Empty?}
+    D1 -- Yes --> E([Return])
+    D1 -- No --> C1[[Call viewCart]]
+    C1 --> D2{Subtotal >= 1000?}
+    D2 -- Yes --> P1[Discount = 10%]
+    D2 -- No --> P2[Discount = 0%]
+    P1 & P2 --> P3[Calculate Total]
+    P3 --> O1[/Display Discount & Total/]
+    O1 --> I1[/Input Proceed? Y/N/]
+    I1 --> D3{Answer is Y?}
+    D3 -- No --> O2[/Display Cancelled/]
+    O2 --> E
+    D3 -- Yes --> O3[/Display Payment Success/]
+    O3 --> L1{Loop all Cart Items}
+    L1 --> P4[Reduce Product Stock]
+    P4 --> L1
+    L1 -- Done --> C2[[Call saveProductsToFile]]
+    C2 --> P5[Clear Cart]
+    P5 --> E
