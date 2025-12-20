@@ -23,7 +23,7 @@ Repository layout
 - build.ps1          -> PowerShell build
 - .github/workflows/ci.yml -> CI to build on Linux/macos/windows
 - .gitignore
-- CONTRIBUTING.md
+- products.txt       -> Product Array (id|name|price|stock|availability)
 
 Build & run (Linux / macOS / WSL)
 1. Clone the repo:
