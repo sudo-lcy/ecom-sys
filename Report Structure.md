@@ -1,23 +1,4 @@
-## 1. Understand what your program actually is
-
-Your program is a **console-based e‑commerce management system** with:
-
-- **Two roles**: Admin and Customer (login system).
-- **File persistence**: `settings.txt` and `products.txt` to store configuration and products.
-- **Admin features**:
-  - View/search products
-  - Add/update/delete (deactivate) products
-  - Edit system settings (login attempts, discount, credentials, etc.)
-- **Customer features**:
-  - View/search products
-  - Add items to cart, update cart
-  - View cart and checkout (discount applied, stock is updated)
-
-This should be the core “story” of your report.
-
----
-
-## 2. More detailed Table of Contents (you can copy & adapt)
+## 1. Table of Contents
 
 You can use this as your Table of Contents and then fill each section:
 
@@ -102,7 +83,7 @@ You can use this as your Table of Contents and then fill each section:
 
 ---
 
-## 3. How to explain each function “and how it works”
+## 2. How to explain each function “and how it works”
 
 For each significant function, you can follow this pattern:
 
@@ -148,7 +129,7 @@ If you do this level of explanation for each major function group, you will meet
 
 ---
 
-## 4. What to actually write in each main section
+## 3. What to actually write in each main section
 
 ### 1. Background / Introduction
 - Explain that online shopping is common and managing products and customer purchases is important.
