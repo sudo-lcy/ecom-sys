@@ -142,8 +142,6 @@ The admin can change all of these values through the **Edit system settings** me
 - `build.ps1`          → PowerShell build
 - `.github/workflows/ci.yml` → CI to build on Linux/macOS/Windows
 - `.gitignore`
-- `products.txt`       → product data (id|name|price|stock|active)
-- `settings.txt`       → system settings (auto-created if missing)
 
 ---
 
