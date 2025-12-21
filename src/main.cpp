@@ -770,6 +770,8 @@ cout << "3. Customer can browse products, manage cart, and checkout.\n";
 cout << "4. products.txt and settings.txt are used to persist data across sessions.\n";
 cout << "5. id|name|price|stock|active format is used in products.txt for each product.\n";
 cout << "6. Enjoy using the E-Commerce Management System!\n\n";
+
+cout << "Github Repository: https://github.com/elseawhy/ecom-sys\n\n";
 }
 
 // ===================== Main ====================================
