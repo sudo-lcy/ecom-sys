@@ -1,0 +1,15 @@
+graph TD
+    S([Start]) --> P1[Open 'products.txt' for Input]
+    P1 --> D1{File Opened?}
+    D1 -- No --> O1[/Display Error/]
+    O1 --> P2[Hardcode Default Products]
+    P2 --> R1([Return False])
+    
+    D1 -- Yes --> Loop{Read Line & Count < Max?}
+    Loop -- False --> R2([Return True])
+    Loop -- True --> D2{Line Empty?}
+    D2 -- Yes --> Loop
+    D2 -- No --> Parse[Parse ID, Name, Price, Stock, Active]
+    Parse --> Store[Store in products array]
+    Store --> Inc[Increment productCount]
+    Inc --> Loop

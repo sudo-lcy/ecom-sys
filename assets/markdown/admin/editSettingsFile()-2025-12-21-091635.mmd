@@ -1,0 +1,34 @@
+graph TD
+    S([Start]) --> Disp[/Display Current Settings/]
+    Disp --> I1[/Input Choice/]
+    I1 --> Switch{Switch Choice}
+    
+    %% Branches
+    Switch -- 1 --> C1[/Input New Max Attempts/]
+    
+    Switch -- 2 --> Loop2[/Input New Threshold/]
+    Loop2 --> D2{Threshold < 0?}
+    D2 -- Yes --> Err2[/Invalid/] --> Loop2
+    D2 -- No --> Set2[Set Threshold]
+    
+    Switch -- 3 --> Loop3[/Input New Rate/]
+    Loop3 --> D3{Rate < 0 OR > 1?}
+    D3 -- Yes --> Err3[/Invalid/] --> Loop3
+    D3 -- No --> Set3[Set Rate]
+    
+    Switch -- 4 --> C4[/Input Admin Username/]
+    Switch -- 5 --> C5[/Input Admin Password/]
+    Switch -- 6 --> C6[/Input Cust Username/]
+    Switch -- 7 --> C7[/Input Cust Password/]
+    Switch -- 0 --> C0[/Display Exiting/]
+    Switch -- Default --> CD[/Display Invalid/]
+
+    %% Merge
+    C1 & Set2 & Set3 & C4 & C5 & C6 & C7 & C0 & CD --> Check{Choice != 0?}
+    Check -- True --> Disp
+    Check -- False --> Open[Open 'settings.txt' for Output]
+    
+    Open --> D4{File Opened?}
+    D4 -- No --> ErrF[/Display Error/] --> E([Return])
+    D4 -- Yes --> Write[/Write All Settings to File/]
+    Write --> E

@@ -1,0 +1,28 @@
+graph TD
+    S([Start]) --> Empty{Cart Empty?}
+    Empty -- Yes --> Msg[/Display Empty/] --> E([Return])
+    
+    Empty -- No --> View[[Call viewCart]]
+    View --> Disc{Subtotal >= Threshold?}
+    Disc -- Yes --> SetD[Calc Discount]
+    Disc -- No --> NoD[Discount = 0]
+    
+    SetD & NoD --> Total[Calc Total]
+    Total --> Disp[/Display Summary/]
+    
+    Disp --> Prompt[/Input Proceed Y/N/]
+    Prompt --> Check{Answer == Y?}
+    Check -- No --> Cancel[/Display Cancelled/] --> E
+    
+    Check -- Yes --> Pay[/Display Payment Success/]
+    Pay --> Loop{Loop i < cartItemCount}
+    Loop -- False --> Save[[Call saveProductsToFile]]
+    
+    Loop -- True --> Find[Find Product Index]
+    Find --> Reduce[Stock -= CartQty]
+    Reduce --> Clamp{Stock < 0?}
+    Clamp -- Yes --> Fix[Stock = 0] --> Next[i++]
+    Clamp -- No --> Next
+    Next --> Loop
+    
+    Save --> Reset[cartItemCount = 0] --> E

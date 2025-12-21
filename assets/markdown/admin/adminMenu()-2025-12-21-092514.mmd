@@ -1,0 +1,19 @@
+graph TD
+    S([Start]) --> Disp[/Display Admin Menu/]
+    Disp --> I1[/Input Choice/]
+    I1 --> Switch{Switch Choice}
+    
+    %% Branches
+    Switch -- 1 --> C1[[Call displayAllProducts]]
+    Switch -- 2 --> C2[[Call searchProductByName]]
+    Switch -- 3 --> C3[[Call addProduct]]
+    Switch -- 4 --> C4[[Call updateProduct]]
+    Switch -- 5 --> C5[[Call deleteProduct]]
+    Switch -- 6 --> C6[[Call editSettingsFile]]
+    Switch -- 0 --> O1[/Display 'Logging out'/]
+    Switch -- Default --> O2[/Display 'Invalid'/]
+    
+    %% Fan-in
+    C1 & C2 & C3 & C4 & C5 & C6 & O1 & O2 --> Check{Choice != 0?}
+    Check -- True --> Disp
+    Check -- False --> E([Return])

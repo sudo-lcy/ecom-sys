@@ -1,0 +1,22 @@
+graph TD
+    S([Start]) --> I1[/Input Cart Item ID/]
+    I1 --> FindP[[Call findProductIndexById]]
+    FindP --> FindC[[Call findCartItemIndexByProductId]]
+    FindC --> Found{Cart Index == -1?}
+    Found -- Yes --> Err1[/Display 'Not found'/] --> E([Return])
+    
+    Found -- No --> LoopQ[/Input New Quantity/]
+    LoopQ --> ValidQ{Quantity < 0?}
+    ValidQ -- Yes --> ErrQ[/Display Invalid/] --> LoopQ
+    
+    ValidQ -- No --> CheckStock{Quantity > Stock?}
+    CheckStock -- Yes --> ErrS[/Display 'Not enough stock'/] --> E
+    
+    CheckStock -- No --> Update[Set Cart Quantity]
+    Update --> IsZero{Quantity == 0?}
+    
+    IsZero -- Yes --> RemoveLoop[Shift Array Elements Left]
+    RemoveLoop --> Dec[Decrement cartItemCount]
+    Dec --> Msg1[/Display 'Item Removed'/] --> E
+    
+    IsZero -- No --> Msg2[/Display 'Updated'/] --> E

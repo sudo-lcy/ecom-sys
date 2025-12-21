@@ -1,0 +1,16 @@
+graph TD
+    S([Start]) --> Init[[Call initialize]]
+    Init --> LoopStart[While True]
+    
+    LoopStart --> CallLog[[Call login]]
+    CallLog --> LoggedIn{Login Success?}
+    LoggedIn -- False --> Bye[/Display Goodbye/] --> Break([End])
+    
+    LoggedIn -- True --> Role{Is Admin?}
+    Role -- Yes --> AM[[Call adminMenu]]
+    Role -- No --> CM[[Call customerMenu]]
+    
+    AM & CM --> Prompt[/Input 'Login Again?'/]
+    Prompt --> CheckAgain{Answer == 'N'?}
+    CheckAgain -- Yes --> Bye2[/Display Exiting/] --> Break
+    CheckAgain -- No --> LoopStart

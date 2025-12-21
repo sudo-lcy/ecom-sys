@@ -1,0 +1,20 @@
+graph TD
+    S([Start]) --> P1[Open 'settings.txt' for Input]
+    P1 --> D1{File Opened?}
+    D1 -- No --> O1[/Display Error/]
+    O1 --> P2[Set Default Variables]
+    P2 --> R1([Return False])
+    
+    D1 -- Yes --> Loop{Read Line?}
+    Loop -- False --> R2([Return True])
+    Loop -- True --> Parse[Parse Key and Value]
+    
+    Parse --> K1{Key == maxAttempts?}
+    K1 -- Yes --> S1[Set maxAttempts] --> Loop
+    K1 -- No --> K2{Key == discountThreshold?}
+    K2 -- Yes --> S2[Set discountThreshold] --> Loop
+    K2 -- No --> K3{Key == discountRate?}
+    K3 -- Yes --> S3[Set discountRate] --> Loop
+    K3 -- No --> K4{Key == Usernames/Passwords?}
+    K4 -- Yes --> S4[Set Credentials] --> Loop
+    K4 -- No --> Loop

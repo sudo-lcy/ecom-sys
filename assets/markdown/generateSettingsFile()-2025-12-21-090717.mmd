@@ -1,0 +1,11 @@
+graph TD
+    S([Start]) --> P1[Try Open 'settings.txt' for Input]
+    P1 --> D1{File Exists?}
+    D1 -- Yes --> C1[Close Input File]
+    C1 --> O1[/Display 'Generated Successfully'/]
+    O1 --> E([Return])
+    
+    D1 -- No --> P2[Open 'settings.txt' for Output]
+    P2 --> W1[/Write Default Settings/]
+    W1 --> C2[Close Output File]
+    C2 --> C1

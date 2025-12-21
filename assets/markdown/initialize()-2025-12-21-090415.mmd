@@ -1,0 +1,22 @@
+graph TD
+    S([Start]) --> O1[/Display 'Initializing...'/]
+    O1 --> O2[/Display 'Loading data...'/]
+    O2 --> C1[[Call loadSettingsFromFile]]
+    C1 --> C2[[Call loadProductsFromFile]]
+    
+    C2 --> D1{Settings AND Products Loaded?}
+    D1 -- Yes --> O3[/Display 'Loaded Successfully'/]
+    D1 -- No --> D2{Settings Loaded?}
+    
+    O3 --> D2
+    D2 -- No --> O4[/Display 'Generating Settings'/]
+    O4 --> C3[[Call generateSettingsFile]]
+    C3 --> D3{Products Loaded?}
+    D2 -- Yes --> D3
+    
+    D3 -- No --> O5[/Display 'Generating Products'/]
+    O5 --> C4[[Call generateProductsFile]]
+    C4 --> O6[/Display Welcome ASCII Art & Instructions/]
+    D3 -- Yes --> O6
+    
+    O6 --> E([Return])

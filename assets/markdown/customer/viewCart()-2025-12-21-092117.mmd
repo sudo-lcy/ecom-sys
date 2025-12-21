@@ -1,0 +1,19 @@
+graph TD
+    S([Start]) --> Init[Set subtotal = 0]
+    Init --> Empty{Cart Empty?}
+    Empty -- Yes --> Msg[/Display 'Cart Empty'/] --> E([Return])
+    
+    Empty -- No --> Head[/Display Header/]
+    Head --> P1[Set i = 0]
+    P1 --> Loop{i < cartItemCount?}
+    Loop -- False --> Foot[/Display Footer & Subtotal/] --> E
+    
+    Loop -- True --> Find[[Call findProductIndexById]]
+    Find --> Valid{Found & Qty > 0?}
+    Valid -- No --> Inc[i++]
+    
+    Valid -- Yes --> Calc[ItemTotal = Price * Qty]
+    Calc --> Add[Subtotal += ItemTotal]
+    Add --> Disp[/Display Row/]
+    Disp --> Inc
+    Inc --> Loop
