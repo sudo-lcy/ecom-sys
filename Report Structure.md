@@ -17,71 +17,25 @@ This should be the core “story” of your report.
 
 ---
 
-## 2. Suggested Report Structure (headings and flow)
-
-You can follow something like this:
-
-1. **Introduction / Background**
-   1. Problem Statement
-   2. Objectives of the System
-   3. Scope and Limitations
-
-2. **System Overview**
-   1. Overall System Description
-   2. User Roles and Use Cases
-   3. Program Flow (High-Level)
-
-3. **System Design**
-   1. Data Structures
-       - `Product`
-       - `CartItem`
-       - Global arrays and configuration variables
-   2. File Storage Format
-       - `settings.txt` format
-       - `products.txt` format
-   3. Input Validation Approach
-
-4. **Function Descriptions and Logic**
-   1. Initialization and Main Flow
-   2. Input and Validation Functions
-   3. File Handling Functions
-   4. Product Management Functions (Admin)
-   5. Cart and Checkout Functions (Customer)
-   6. Login System Functions
-   7. Menu Functions (Admin and Customer)
-
-5. **How the Functions Work Together**
-   1. Typical Admin Session Flow
-   2. Typical Customer Session Flow
-   3. Data Persistence Across Sessions
-
-6. **Testing and Sample Runs** (if your lecturer wants)
-   1. Example Admin Operations
-   2. Example Customer Checkout
-   3. Screenshots / Console Output
-
-7. **Conclusion**
-   1. Achievements
-   2. Possible Improvements / Future Work
-
----
-
-## 3. More detailed Table of Contents (you can copy & adapt)
+## 2. More detailed Table of Contents (you can copy & adapt)
 
 You can use this as your Table of Contents and then fill each section:
 
 1. **Introduction**
+   
    1.1 Background of the Project  
    1.2 Problem Statement  
    1.3 Objectives  
    1.4 Scope and Limitations  
 
 2. **System Overview**
+   
    2.1 Description of the E‑Commerce Management System  
    2.2 User Roles (Admin and Customer)  
    2.3 High-Level Program Flow  
 
 3. **System Design**
+   
    3.1 Data Structures  
    &nbsp;&nbsp;&nbsp;&nbsp;3.1.1 `Product` Structure  
    &nbsp;&nbsp;&nbsp;&nbsp;3.1.2 `CartItem` Structure  
@@ -92,6 +46,7 @@ You can use this as your Table of Contents and then fill each section:
    3.3 Input Validation Strategy  
 
 4. **Function Descriptions**
+   
    4.1 Input Handling Functions  
    &nbsp;&nbsp;&nbsp;&nbsp;4.1.1 `readInt()`  
    &nbsp;&nbsp;&nbsp;&nbsp;4.1.2 `readDouble()`  
@@ -127,24 +82,27 @@ You can use this as your Table of Contents and then fill each section:
    &nbsp;&nbsp;&nbsp;&nbsp;4.5.3 `main()`  
 
 5. **Interaction Between Components**
+   
    5.1 Program Start and Initialization Sequence  
    5.2 Admin Workflow  
    5.3 Customer Workflow  
    5.4 Data Persistence Across Runs  
 
 6. **Testing and Results** (optional but recommended)
+   
    6.1 Test Cases for Admin Features  
    6.2 Test Cases for Customer Features  
    6.3 Sample Screens / Output  
 
 7. **Conclusion**
+   
    7.1 Summary of Features Implemented  
    7.2 Challenges and Lessons Learned  
    7.3 Future Enhancements  
 
 ---
 
-## 4. How to explain each function “and how it works”
+## 3. How to explain each function “and how it works”
 
 For each significant function, you can follow this pattern:
 
@@ -190,21 +148,21 @@ If you do this level of explanation for each major function group, you will meet
 
 ---
 
-## 5. What to actually write in each main section
+## 4. What to actually write in each main section
 
-### 5.1 Background / Introduction
+### 1. Background / Introduction
 - Explain that online shopping is common and managing products and customer purchases is important.
 - State that your project is a **simple console-based e‑commerce system** for learning purposes.
 - Mention that it supports admins and customers, with login credentials configurable in `settings.txt`.
 
-### 5.2 System Overview
+### 2. System Overview
 - Briefly describe what each role can do:
   - Admin: manage inventory and system settings.
   - Customer: browse products, maintain a cart, and checkout.
 - Provide a simple text diagram or explanation of the program flow:
   - `main()` → `initialize()` → `login()` → `adminMenu()` or `customerMenu()` → repeat or exit.
 
-### 5.3 System Design
+### 3. System Design
 Describe data structures:
 - `struct Product { int id; string name; double price; int stock; bool active; };`
 - `struct CartItem { int productId; int quantity; };`
@@ -222,7 +180,7 @@ Explain input validation:
 - `readDouble()` similarly for `double`, returns `-2` on invalid input.
 - Many functions use loops to check for negative values or out-of-range values and re-prompt.
 
-### 5.4 Function Explanations
+### 4. Function Explanations
 Group them as above (input, file, product management, cart, login, menus), and for each:
 - Give purpose
 - Show prototype
