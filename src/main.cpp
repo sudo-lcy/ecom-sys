@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <limits>
+#include <cstdlib>
 
 using namespace std;
 
@@ -48,7 +49,7 @@ int readInt()
     }
 }
 
-int readDouble()
+double readDouble()
 {
     string input;
     getline(cin, input);
@@ -597,10 +598,17 @@ void checkout() {
     } else {
         discount = 0.0;
     }
+
     total = subtotal - discount;
 
     cout << "\t\t\t\t\tDiscount: \t" << discount << "\n";
     cout << "\t\t\t\t\tTotal: \t\t" << total << "\n";
+
+
+    if (subtotal >= discountThreshold) {
+        cout << "\nSince your subtotal exceeds RM " << discountThreshold << ", you get a discount of "
+             << (discountRate * 100) << "%!\n";
+    }
 
     cout << "===================================================================\n";
 
@@ -778,6 +786,8 @@ cout << "Github Repository: https://github.com/elseawhy/ecom-sys\n\n";
 
 int main() 
 {
+    system("chcp 65001 > nul");
+
     bool isAdmin = false;
     char again;
 
